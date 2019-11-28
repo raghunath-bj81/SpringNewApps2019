@@ -10,7 +10,7 @@
 	<packaging>jar</packaging>
 
 	<name>spring-boot-kafka-consumer-example</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Spring Boot application which consumes a json and stores into Mongo DB</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -41,6 +41,20 @@
 			<version>2.6.7</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.18</version>
+			<scope>compile</scope>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-mongodb</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>com.common.models</groupId>
 			<artifactId>CommonBeanPojo</artifactId>
@@ -51,6 +65,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-log4j2</artifactId>
 		</dependency>
 	</dependencies>
 
