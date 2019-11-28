@@ -15,10 +15,21 @@ import org.springframework.kafka.support.serializer.JsonDeserializer;
 
 import com.common.pojos.User;
 
+/**
+ * Enables Kafka so that this configuration 
+ * class subscribes to the provided topics inside 
+ * the respective consumer services.
+ * @author rjosula
+ *
+ */
 @EnableKafka
 @Configuration
 public class KafkaConfiguration {
 
+	/**
+	 * Consumer factory to consume the String messages from Producer component.
+	 * @return
+	 */
     @Bean
     public ConsumerFactory<String, String> consumerFactory() {
         Map<String, Object> config = new HashMap<>();
@@ -32,6 +43,10 @@ public class KafkaConfiguration {
     }
 
 
+    /**
+     * Consumes the string messages concurrently.
+     * @return
+     */
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory();
@@ -40,6 +55,10 @@ public class KafkaConfiguration {
     }
 
 
+    /**
+     * Factory of Consumer to consume the User objects
+     * @return
+     */
     @Bean
     public ConsumerFactory<String, User> userConsumerFactory() {
         Map<String, Object> config = new HashMap<>();
@@ -52,6 +71,10 @@ public class KafkaConfiguration {
                 new JsonDeserializer<>(User.class));
     }
 
+    /**
+     * Handles concurrent requests in multi threaded environment and consumes the User objects
+     * @return
+     */
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, User> userKafkaListenerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, User> factory = new ConcurrentKafkaListenerContainerFactory<>();

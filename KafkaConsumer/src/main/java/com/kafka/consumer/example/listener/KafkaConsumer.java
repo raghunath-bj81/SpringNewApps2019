@@ -27,16 +27,20 @@ public class KafkaConsumer {
 	@Autowired
 	private CustomerService customerService;
 
+	/**
+	 * Consumer service to consume the string message from kafka_Example topic
+	 * @param message
+	 */
     @KafkaListener(topics = "Kafka_Example", group = "group_id")
     public void consume(String message) {
         System.out.println("Consumed message: " + message);
     }
 
     /**
-     * Kafka Listener to consume the User information data
+     * Kafka Listener to consume the User information data from topic Kafka_Example_json
      * @param user
      */
-    @KafkaListener(topics = "Kafka_Example_json", group = "group_json",
+    @KafkaListener(topics = "Kafka_User_topic", group = "group_json",
             containerFactory = "userKafkaListenerFactory")
     public void consumeUserInformation(User user) {
     	logger.info("Inside Consumer to get the User Topic");
