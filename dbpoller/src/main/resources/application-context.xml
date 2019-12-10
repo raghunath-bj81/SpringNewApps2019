@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	   http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+	   http://www.springframework.org/schema/integration/jdbc http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc-2.0.xsd
+	   http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd">
+
+	<context:component-scan
+		base-package="org.javacodegeeks.springintegration.polling.dbpoller" />
+
+	<int:channel id="fromdb">
+        <int:queue />
+    </int:channel>
+    <int:poller default="true" fixed-rate="60000" />
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/user_db" />
+		<property name="username" value="root" />
+		<property name="password" value="root" />
+	</bean>
+	<int:service-activator input-channel="fromdb"
+		ref="jdbcMessageHandler" method="recieveRecords"/>
+	<int-jdbc:inbound-channel-adapter
+		channel="fromdb" data-source="dataSource" query="SELECT * FROM user WHERE password = 'Raghunath'">
+		<int:poller fixed-delay="60000" />
+	</int-jdbc:inbound-channel-adapter>
+
+</beans>
