@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	   http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+	   http://www.springframework.org/schema/integration/jdbc http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc-2.0.xsd
+	   http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd">
+
+	<int:channel id="gateway.request.channel.1"/>
+	<int:channel id="gateway.reply.channel.1"/>
+	<int:channel id="requestChannel" />
+	<int:channel id="replyChannel1" />
+	<int:channel id = "application.errorChannel"/>
+
+	<int:gateway id="gateway.example" default-request-channel="gateway.request.channel.1" 
+	default-reply-channel="gateway.reply.channel.1" service-interface="com.sping.gateway.utilities.service.GatewayService"> 
+		<int:method name="send"></int:method>
+	</int:gateway>
+	
+	<int:chain auto-startup="true" input-channel="gateway.request.channel.1" output-channel="gateway.reply.channel.1" id="chain.1">
+		<int:service-activator id="service.activator.1" ref="serviceAtc" method="changeMsg" />
+	</int:chain>
+	
+	<int-jdbc:outbound-channel-adapter data-source="datasource" channel=""></int-jdbc:outbound-channel-adapter>
+</beans>
