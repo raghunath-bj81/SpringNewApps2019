@@ -31,18 +31,18 @@ public class GatewayControllerServiceImpl implements GatewayControllerService {
 	 * Retry mechanism to hit the getCustomer Service with configurable number of times.
 	 * If any connection issues occures then the recovery method shall be called.
 	 * @param isRetryAlive
-	 * @param simulateretryfallback
+	 * @param isRetryfallback
 	 * @return
 	 * @throws ConnectException
 	 */
 	@Override
-	public ResponseEntity<?> getAllCustomers(boolean isRetryAlive, boolean simulateretryfallback) throws ConnectException {
+	public ResponseEntity<?> getAllCustomers(boolean isRetryAlive, boolean isRetryfallback) throws ConnectException {
 		ResponseEntity<?> response = null;
 		if (isRetryAlive) {
 			System.out.println("Customer service is down and recall of Customer service is configured true, so trying to connect the same.");
 
 			try {
-				if (simulateretryfallback) {
+				if (isRetryfallback) {
 					throw new ConnectException(
 							"Retry shall occur for configured number of times..Must fallback as all retry will get exception!!!");
 				}
@@ -79,18 +79,18 @@ public class GatewayControllerServiceImpl implements GatewayControllerService {
 	 * 
 	 * @param customerPayload
 	 * @param isRetryAlive
-	 * @param simulateretryfallback
+	 * @param isRetryfallback
 	 * @return
 	 */
 	@Override
 	public ResponseEntity<?> saveCustomer(CustomerPayload customerPayload, boolean isRetryAlive,
-			boolean simulateretryfallback) {
+			boolean isRetryfallback) {
 		ResponseEntity<?> response = null;
 		if (isRetryAlive) {
 			System.out.println("Customer service is down and recall of Customer service is configured true, so trying to connect the same.");
 
 			try {
-				if (simulateretryfallback) {
+				if (isRetryfallback) {
 					throw new ConnectException(
 							"Retry shall occur for configured number of times..Must fallback as all retry will get exception!!!");
 				}

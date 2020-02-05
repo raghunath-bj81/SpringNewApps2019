@@ -20,24 +20,24 @@ public interface GatewayControllerService {
 	/**
 	 * Retry mechanism to hit the getCustomer Service with configurable number of times.
 	 * If any connection issues occures then the recovery method shall be called.
-	 * @param simulateretry
-	 * @param simulateretryfallback
+	 * @param isRetryEnabled
+	 * @param isRetryfallback
 	 * @return
 	 * @throws ConnectException
 	 */
 	@Retryable(value = { ConnectException.class }, maxAttemptsExpression = "${customer.gateway.max.attempts}")
-    public ResponseEntity<?> getAllCustomers(boolean simulateretry, boolean simulateretryfallback)  throws ConnectException;
+    public ResponseEntity<?> getAllCustomers(boolean isRetryEnabled, boolean isRetryfallback)  throws ConnectException;
 
 	/**
 	 * Saves the customer payload and retries for configured number of times.
 	 * 
 	 * @param customerPayload
-	 * @param simulateretry
-	 * @param simulateretryfallback
+	 * @param isRetryEnabled
+	 * @param isRetryfallback
 	 * @return
 	 */
 	@Retryable(value = { ConnectException.class }, maxAttemptsExpression = "${customer.gateway.max.attempts}")
-	public ResponseEntity<?> saveCustomer(CustomerPayload customerPayload, boolean simulateretry, boolean simulateretryfallback);
+	public ResponseEntity<?> saveCustomer(CustomerPayload customerPayload, boolean isRetryEnabled, boolean isRetryfallback);
  
 	/**
 	 * Fallback method when those number hits still the customer server is not up & running.
