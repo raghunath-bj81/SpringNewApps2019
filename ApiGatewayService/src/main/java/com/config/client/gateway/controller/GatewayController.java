@@ -50,7 +50,7 @@ public class GatewayController {
 	public ResponseEntity<?> getAllCustomers(){
 		ResponseEntity<?> responseE = null;
 		try {
-			responseE = gateWayService.customerService(true, true);
+			responseE = gateWayService.getAllCustomers(true, true);
 		} catch (ConnectException e) {
 			e.printStackTrace();
 		}

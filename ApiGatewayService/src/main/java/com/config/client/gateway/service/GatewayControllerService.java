@@ -26,7 +26,7 @@ public interface GatewayControllerService {
 	 * @throws ConnectException
 	 */
 	@Retryable(value = { ConnectException.class }, maxAttemptsExpression = "${customer.gateway.max.attempts}")
-    public ResponseEntity<?> customerService(boolean simulateretry, boolean simulateretryfallback)  throws ConnectException;
+    public ResponseEntity<?> getAllCustomers(boolean simulateretry, boolean simulateretryfallback)  throws ConnectException;
 
 	/**
 	 * Saves the customer payload and retries for configured number of times.

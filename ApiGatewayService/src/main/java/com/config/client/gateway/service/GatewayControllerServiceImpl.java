@@ -30,15 +30,15 @@ public class GatewayControllerServiceImpl implements GatewayControllerService {
 	/**
 	 * Retry mechanism to hit the getCustomer Service with configurable number of times.
 	 * If any connection issues occures then the recovery method shall be called.
-	 * @param simulateretry
+	 * @param isRetryAlive
 	 * @param simulateretryfallback
 	 * @return
 	 * @throws ConnectException
 	 */
 	@Override
-	public ResponseEntity<?> customerService(boolean simulateretry, boolean simulateretryfallback) throws ConnectException {
+	public ResponseEntity<?> getAllCustomers(boolean isRetryAlive, boolean simulateretryfallback) throws ConnectException {
 		ResponseEntity<?> response = null;
-		if (simulateretry) {
+		if (isRetryAlive) {
 			System.out.println("Customer service is down and recall of Customer service is configured true, so trying to connect the same.");
 
 			try {
@@ -48,7 +48,7 @@ public class GatewayControllerServiceImpl implements GatewayControllerService {
 				}
 			} catch (Exception e) {
 			}
-
+			System.out.println("Customer service is now up and running... Getting the results..");
 			response = customerGatewayApp.getAllCustomers();
 			try {
 				if (response == null) {
@@ -69,7 +69,7 @@ public class GatewayControllerServiceImpl implements GatewayControllerService {
 	@Override
 	public ResponseEntity<?> customerServiceFallback(RuntimeException e) {
 		ErrorResponse errResponse = new ErrorResponse();
-		errResponse.setErrorCode("ServerDown");
+		errResponse.setErrorCode("CustomerService Down");
 		errResponse.setErrorDescription("Customer Server application is not up & running though "+maxAttempts + " retries have been tried");
 		return new ResponseEntity<ErrorResponse>(errResponse, HttpStatus.OK);
 	}
@@ -78,15 +78,15 @@ public class GatewayControllerServiceImpl implements GatewayControllerService {
 	 * Saves the customer payload and retries for configured number of times.
 	 * 
 	 * @param customerPayload
-	 * @param simulateretry
+	 * @param isRetryAlive
 	 * @param simulateretryfallback
 	 * @return
 	 */
 	@Override
-	public ResponseEntity<?> saveCustomer(CustomerPayload customerPayload, boolean simulateretry,
+	public ResponseEntity<?> saveCustomer(CustomerPayload customerPayload, boolean isRetryAlive,
 			boolean simulateretryfallback) {
 		ResponseEntity<?> response = null;
-		if (simulateretry) {
+		if (isRetryAlive) {
 			System.out.println("Customer service is down and recall of Customer service is configured true, so trying to connect the same.");
 
 			try {
@@ -96,6 +96,7 @@ public class GatewayControllerServiceImpl implements GatewayControllerService {
 				}
 			} catch (Exception e) {
 			}
+			System.out.println("Customer service is now up and running... Saving the results..");
 			response = customerGatewayApp.saveCustomer(customerPayload);
 			try {
 				if (response == null) {

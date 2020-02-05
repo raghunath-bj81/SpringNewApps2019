@@ -22,7 +22,7 @@ import com.common.pojos.CustomerPayload;
  * @author rjosula
  *
  */
-@FeignClient(name = "gateway-client", url = "${customer.gateway.client.url}")
+@FeignClient(name = "cust-gateway-client", url = "${customer.gateway.client.url}")
 public interface CustomerGatewayApp {
 
 	/**
